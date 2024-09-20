@@ -8,19 +8,23 @@ import {
   makeTopFace,
   makeTopFin,
 } from "./bigFishFunctions"
-import { orange, white, FourPartColor } from "./symbols"
+import { FourPartColor } from "./symbols"
 
 import * as THREE from "three"
 
-export function makeBody(): THREE.Mesh {
+export function makeBody(
+  fishType: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+): THREE.Mesh {
   const geometry = new THREE.BoxGeometry(6, 6, 2)
   return new THREE.Mesh(geometry, [
-    makeLeftFace("glitter", orange, white),
-    makeLeftFace("glitter", orange, white),
-    makeTopFace("glitter", orange, white),
-    makeTopFace("glitter", orange, white),
-    makeBigFishSide("glitter", orange, white, true),
-    makeBigFishSide("glitter", orange, white, false),
+    makeLeftFace(fishType, primary, secondary),
+    makeLeftFace(fishType, primary, secondary),
+    makeTopFace(fishType, primary, secondary),
+    makeTopFace(fishType, primary, secondary),
+    makeBigFishSide(fishType, primary, secondary, true),
+    makeBigFishSide(fishType, primary, secondary, false),
   ])
 }
 

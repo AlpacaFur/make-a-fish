@@ -1,6 +1,6 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
-import { _, orange, white } from "./symbols"
+import { _, FourPartColor } from "./symbols"
 import { makeBody, makeFins } from "./bigFishAssemble"
 
 const scene = new THREE.Scene()
@@ -32,12 +32,41 @@ document.body.appendChild(renderer.domElement)
   scene.add(light)
 }
 
+const colors = [
+  "#D2D7D8",
+  "#D06828",
+  "#9D379B",
+  "#4286C1",
+  "#E9B540",
+  "#71A936",
+  "#C96C90",
+  "#34373B",
+  "#7E7E75",
+  "#367687",
+  "#5D2098",
+  "#292B8B",
+  "#5C3C20",
+  "#4D5B29",
+  "#822620",
+  "#010205",
+]
+  .map((color) => color.slice(1))
+  .map((color) => [
+    parseInt(color.slice(0, 2), 16),
+    parseInt(color.slice(2, 4), 16),
+    parseInt(color.slice(4, 6), 16),
+    0xff,
+  ]) as FourPartColor[]
+
 function buildFish() {
+  const primary = colors[Math.floor(Math.random() * colors.length)]
+  const secondary = colors[Math.floor(Math.random() * colors.length)]
+
   const fishGroup = new THREE.Group()
-  fishGroup.add(makeBody())
+  fishGroup.add(makeBody("glitter", primary, secondary))
 
   const rearFinParent = new THREE.Group()
-  makeFins(fishGroup, rearFinParent, "glitter", orange, white)
+  makeFins(fishGroup, rearFinParent, "glitter", primary, secondary)
 
   scene.add(fishGroup)
 
