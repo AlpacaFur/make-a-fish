@@ -14,7 +14,9 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setPixelRatio(window.devicePixelRatio * 1.5)
-new OrbitControls(camera, renderer.domElement)
+const controls = new OrbitControls(camera, renderer.domElement)
+controls.enablePan = false
+controls.enableZoom = false
 renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
@@ -30,34 +32,66 @@ document.body.appendChild(renderer.domElement)
   scene.add(light)
 }
 
-const group = new THREE.Group()
-group.add(makeBody())
+function buildFish() {
+  const fishGroup = new THREE.Group()
+  fishGroup.add(makeBody())
 
-const rearFinParent = new THREE.Group()
-makeFins(group, rearFinParent, "glitter", orange, white)
+  const rearFinParent = new THREE.Group()
+  makeFins(fishGroup, rearFinParent, "glitter", orange, white)
 
-scene.add(group)
+  scene.add(fishGroup)
 
-group.rotation.x = Math.PI * 0.15
-group.rotation.y = Math.PI * 0.15
-camera.position.z = 15
+  fishGroup.rotation.x = Math.PI * 0.15
+  fishGroup.rotation.y = Math.PI * 0.15
 
-function animate(time: number) {
-  renderer.render(scene, camera)
-  // group.rotation.x += 0.001;
-  // group.rotation.z += 0.001;
-  // group.rotation.y -= 0.01;
-
-  const oscillatingValue = Math.sin((time * 4) / 1000)
-
-  group.rotation.y = -oscillatingValue / 8
-
-  rearFinParent.rotation.y = oscillatingValue / 4
+  return { fishGroup, rearFinParent }
 }
-renderer.setAnimationLoop(animate)
+
+camera.position.z = 20
+
+function makeAFish() {
+  const { fishGroup, rearFinParent } = buildFish()
+
+  function animate(time: number) {
+    renderer.render(scene, camera)
+    // group.rotation.x += 0.001;
+    // group.rotation.z += 0.001;
+    // group.rotation.y += 0.001;
+
+    const oscillatingValue = Math.sin((time * 4) / 1000)
+
+    fishGroup.position.x = 2
+    fishGroup.rotation.y = -oscillatingValue / 8
+    rearFinParent.rotation.y = oscillatingValue / 4
+  }
+  renderer.setAnimationLoop(animate)
+}
 
 window.addEventListener("resize", () => {
   camera.aspect = window.innerWidth / window.innerHeight
   camera.updateProjectionMatrix()
   renderer.setSize(window.innerWidth, window.innerHeight)
 })
+
+function checkTime() {
+  const now = new Date()
+
+  const isElevenEleven =
+    (now.getHours() == 11 || now.getHours() == 23) && now.getMinutes() == 11
+
+  if (isElevenEleven) {
+    document.getElementById("top-text")!.textContent = `11:11`
+    document.getElementById("bottom-text")!.textContent = "make a fish!"
+    makeAFish()
+  } else {
+    const time = `${now.getHours()}:${String(now.getMinutes()).padStart(
+      2,
+      "0"
+    )}`
+
+    document.getElementById("top-text")!.textContent = `it's ${time}`
+    document.getElementById("bottom-text")!.textContent = "come back later"
+  }
+}
+
+checkTime()
