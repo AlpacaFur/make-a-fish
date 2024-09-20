@@ -1,8 +1,7 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
-import "./style.css"
-import { _, FourPartColor, orange, white } from "./symbols"
-import { makeBody } from "./bigFishAssemble"
+import { _, orange, white } from "./symbols"
+import { makeBody, makeFins } from "./bigFishAssemble"
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color("dodgerblue")
@@ -20,8 +19,8 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 document.body.appendChild(renderer.domElement)
 
 {
-  const skyColor = 0xffffff // light blue
-  const groundColor = 0x000000 // brownish orange
+  const skyColor = 0xffffff
+  const groundColor = 0x000000
   const intensity = 3.0
   const light = new THREE.HemisphereLight(skyColor, groundColor, intensity)
   light.position.x -= 5
@@ -56,12 +55,9 @@ function animate(time: number) {
   rearFinParent.rotation.y = oscillatingValue / 4
 }
 renderer.setAnimationLoop(animate)
-function makeFins(
-  group: THREE.Group<THREE.Object3DEventMap>,
-  rearFinParent: THREE.Group<THREE.Object3DEventMap>,
-  arg2: string,
-  orange: FourPartColor,
-  white: FourPartColor
-) {
-  throw new Error("Function not implemented.")
-}
+
+window.addEventListener("resize", () => {
+  camera.aspect = window.innerWidth / window.innerHeight
+  camera.updateProjectionMatrix()
+  renderer.setSize(window.innerWidth, window.innerHeight)
+})

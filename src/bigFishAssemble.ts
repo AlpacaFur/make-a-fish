@@ -10,7 +10,7 @@ import {
 } from "./bigFishFunctions"
 import { orange, white, FourPartColor } from "./symbols"
 
-import THREE from "three"
+import * as THREE from "three"
 
 export function makeBody(): THREE.Mesh {
   const geometry = new THREE.BoxGeometry(6, 6, 2)
@@ -24,7 +24,7 @@ export function makeBody(): THREE.Mesh {
   ])
 }
 
-function makeFins(
+export function makeFins(
   group: THREE.Group,
   rearFinParent: THREE.Group,
   fishType: BigFish,
