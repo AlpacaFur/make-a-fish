@@ -1,20 +1,18 @@
 import * as THREE from "three"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
 import "./style.css"
-
-const empty: FourPartColor = [0x00, 0x00, 0x00, 0x00]
-const white: FourPartColor = [0xff, 0xff, 0xff, 0xff]
-const black: FourPartColor = [0x00, 0x00, 0x00, 0xff]
-const orange: FourPartColor = [0xff, 0x66, 0x00, 0xff]
-
-const _ = "B"
-const B = "B"
-const O = "B"
-const W = "W"
-const P = "P"
-const S = "S"
-
-type Symbols = "B" | "W" | "P" | "S"
+import {
+  black,
+  empty,
+  FourPartColor,
+  hydrateSymbols,
+  O,
+  orange,
+  P,
+  S,
+  Symbols,
+  white,
+} from "./symbols"
 
 // prettier-ignore
 const ditherTexture = [
@@ -47,25 +45,6 @@ type BigFishMap = {
       bottom: AlphaAndTexture
     }
   }
-}
-
-function hydrateSymbols(
-  symbols: Symbols[],
-  primary: FourPartColor,
-  secondary: FourPartColor
-): FourPartColor[] {
-  return symbols.map((symbol) => {
-    switch (symbol) {
-      case "B":
-        return black
-      case "W":
-        return white
-      case "P":
-        return primary
-      case "S":
-        return secondary
-    }
-  })
 }
 
 // prettier-ignore
@@ -115,8 +94,6 @@ function sampleDitherAtCoord(x: number, y: number) {
 function mixColor(channelValue: number, value: number) {
   return channelValue - (255 - value - 25)
 }
-
-type FourPartColor = [number, number, number, number]
 
 function ditherIt(data: FourPartColor[], width: number): FourPartColor[] {
   return data.map((fourPartColor, index): FourPartColor => {
