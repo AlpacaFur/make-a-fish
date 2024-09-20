@@ -2,6 +2,7 @@ import * as THREE from "three"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
 import "./style.css"
 import {
+  _,
   black,
   empty,
   FourPartColor,
@@ -11,6 +12,7 @@ import {
   P,
   S,
   Symbols,
+  W,
   white,
 } from "./symbols"
 
@@ -59,27 +61,83 @@ const bigFishMap = {
         P, S, S, S, P, S, 
         P, P, S, P, S, S, 
       ],
-      top: [],
-      right: [],
-      bottom: [],
-      left: [],
+      top: [
+        S, P, S, S, S, S, 
+        P, P, S, S, S, S,
+      ],
+      right: [
+        S, P, 
+        S, S, 
+        S, S, 
+        P, P, 
+        S, S, 
+        S, S,
+      ],
+      bottom: [
+        S, P, S, S, S, S, 
+        P, P, S, S, S, S,
+      ],
+      left: [
+        S, P, 
+        S, S, 
+        S, S, 
+        P, P, 
+        S, S, 
+        S, S,
+      ]
     },
     fins: {
       top: {
-        alpha: [],
-        texture: [],
+        alpha: [
+          W, W, _, _, _, _,
+          W, W, W, _, _, _, 
+          _, W, W, W, _, _, 
+        ],
+        texture: [
+          P, P, _, _, _, _, 
+          P, P, P, _, _, _, 
+          _, S, S, P, _, _, 
+        ]
       },
       side: {
-        alpha: [],
-        texture: [],
+        alpha: [
+          W, W, 
+          _, W
+        ],
+        texture: [
+          S, P, 
+          P, S
+        ],
       },
       rear: {
-        alpha: [],
-        texture: [],
+        alpha: [
+          _, _, _, _, _, 
+          W, W, W, W, _, 
+          W, W, W, W, W, 
+          W, W, W, W, W, 
+          _, W, W, W, _, 
+          _, _, _, _, _,
+        ],
+        texture: [
+          P, P, P, P, P,
+          P, P, P, P, P, 
+          P, P, P, P, P, 
+          P, P, P, P, P, 
+          P, P, P, P, P, 
+          P, P, P, P, P,
+        ]
       },
       bottom: {
-        alpha: [],
-        texture: [],
+        alpha: [
+          _, W, W, W, W, _, 
+          W, W, W, _, _, _, 
+          W, _, _, _, _, _, 
+        ],
+        texture: [
+          P, P, S, P, S, _,
+          P, P, P, P, _, _,
+          P, S, S, P, _, _,
+        ]
       },
     },
   },
@@ -191,212 +249,104 @@ function dataToFinCanvasMaterial(
   return mat
 }
 
-function makeTopFin() {
-  const alpha = [
-    white,
-    white,
-    empty,
-    empty,
-    empty,
-    empty,
-    white,
-    white,
-    white,
-    empty,
-    empty,
-    empty,
-    empty,
-    white,
-    white,
-    white,
-    empty,
-    empty,
-  ]
-
-  const texture = [
-    orange,
-    orange,
-    black,
-    black,
-    black,
-    black,
-    orange,
-    orange,
-    orange,
-    black,
-    black,
-    black,
-    black,
-    white,
-    white,
-    orange,
-    black,
-    black,
-  ]
-
+function makeTopFin(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  const alpha = hydrateSymbols(
+    bigFishMap[type].fins.top.alpha,
+    primary,
+    secondary
+  )
+  const texture = hydrateSymbols(
+    bigFishMap[type].fins.top.texture,
+    primary,
+    secondary
+  )
   return dataToFinCanvasMaterial(texture, alpha, 6, 3, true)
 }
 
-function makeBottomFin() {
-  const alpha = [
-    empty,
-    white,
-    white,
-    white,
-    white,
-    empty,
-    white,
-    white,
-    white,
-    empty,
-    empty,
-    empty,
-    white,
-    empty,
-    empty,
-    empty,
-    empty,
-    empty,
-  ]
-
-  const texture = [
-    orange,
-    orange,
-    white,
-    orange,
-    white,
-    black,
-    orange,
-    orange,
-    orange,
-    orange,
-    black,
-    black,
-    orange,
-    white,
-    white,
-    orange,
-    black,
-    black,
-  ]
-
+function makeBottomFin(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  const alpha = hydrateSymbols(
+    bigFishMap[type].fins.bottom.alpha,
+    primary,
+    secondary
+  )
+  const texture = hydrateSymbols(
+    bigFishMap[type].fins.bottom.texture,
+    primary,
+    secondary
+  )
   return dataToFinCanvasMaterial(texture, alpha, 6, 3, true)
 }
 
-function makeRearFin() {
-  const alpha = [
-    empty,
-    empty,
-    empty,
-    empty,
-    empty,
-    white,
-    white,
-    white,
-    white,
-    empty,
-    white,
-    white,
-    white,
-    white,
-    white,
-    white,
-    white,
-    white,
-    white,
-    white,
-    empty,
-    white,
-    white,
-    white,
-    empty,
-    empty,
-    empty,
-    empty,
-    empty,
-    empty,
-  ]
-
-  const texture = [
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-    orange,
-  ]
-
+function makeRearFin(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  const alpha = hydrateSymbols(
+    bigFishMap[type].fins.rear.alpha,
+    primary,
+    secondary
+  )
+  const texture = hydrateSymbols(
+    bigFishMap[type].fins.rear.texture,
+    primary,
+    secondary
+  )
   return dataToFinCanvasMaterial(texture, alpha, 5, 6, true)
 }
 
-function makeSideFin(mirror: boolean) {
-  const alpha = [white, white, empty, white]
-
-  const texture = [white, orange, orange, white]
-
-  return dataToFinCanvasMaterial(texture, alpha, 2, 2, !mirror)
+function makeSideFin(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  const alpha = hydrateSymbols(
+    bigFishMap[type].fins.side.alpha,
+    primary,
+    secondary
+  )
+  const texture = hydrateSymbols(
+    bigFishMap[type].fins.side.texture,
+    primary,
+    secondary
+  )
+  return dataToFinCanvasMaterial(texture, alpha, 2, 2, true)
 }
 
-function makeTopFace() {
-  const texture = [
-    white,
-    orange,
-    white,
-    white,
-    white,
-    white,
-    orange,
-    orange,
-    white,
-    white,
-    white,
-    white,
-  ]
-
-  return dataToCanvasMaterial(texture, false, 6, 2, true)
+function makeTopFace(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  return dataToCanvasMaterial(
+    hydrateSymbols(bigFishMap[type].body.top, primary, secondary),
+    false,
+    6,
+    2,
+    true
+  )
 }
 
-function makeLeftFace() {
-  const texture = [
-    white,
-    orange,
-    white,
-    white,
-    white,
-    white,
-    orange,
-    orange,
-    white,
-    white,
-    white,
-    white,
-  ]
-
-  return dataToCanvasMaterial(texture, false, 2, 6, true)
+function makeLeftFace(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  return dataToCanvasMaterial(
+    hydrateSymbols(bigFishMap[type].body.left, primary, secondary),
+    false,
+    2,
+    6,
+    true
+  )
 }
 
 const scene = new THREE.Scene()
@@ -430,35 +380,43 @@ const theothermat = new THREE.MeshPhongMaterial({ color: 0x00ff00 })
   scene.add(light)
 }
 
-const fishSideNormal = makeBigFishSide("glitter", orange, white, true)
-const fishSideMirrored = makeBigFishSide("glitter", orange, white, false)
-const topFace = makeTopFace()
-
 const cube = new THREE.Mesh(geometry, [
-  makeLeftFace(),
-  makeLeftFace(),
-  topFace,
-  topFace,
-  fishSideNormal,
-  fishSideMirrored,
+  makeLeftFace("glitter", orange, white),
+  makeLeftFace("glitter", orange, white),
+  makeTopFace("glitter", orange, white),
+  makeTopFace("glitter", orange, white),
+  makeBigFishSide("glitter", orange, white, true),
+  makeBigFishSide("glitter", orange, white, false),
 ])
 const cube2 = new THREE.Mesh(theothercube, theothermat)
 cube2.position.z += 5
 const group = new THREE.Group()
 
 const topBottomPlane = new THREE.PlaneGeometry(6, 3)
-const topFin = new THREE.Mesh(topBottomPlane, makeTopFin())
+const topFin = new THREE.Mesh(
+  topBottomPlane,
+  makeTopFin("glitter", orange, white)
+)
 topFin.position.y = 4.5
-const bottomFin = new THREE.Mesh(topBottomPlane, makeBottomFin())
+const bottomFin = new THREE.Mesh(
+  topBottomPlane,
+  makeBottomFin("glitter", orange, white)
+)
 bottomFin.position.y = -4.5
 
 const sideFinPlane = new THREE.PlaneGeometry(2, 2)
-const sideFinClose = new THREE.Mesh(sideFinPlane, makeSideFin(false))
+const sideFinClose = new THREE.Mesh(
+  sideFinPlane,
+  makeSideFin("glitter", orange, white)
+)
 sideFinClose.position.z = 1 + Math.sqrt(1 / 2)
 sideFinClose.position.x = -Math.sqrt(1 / 2)
 sideFinClose.position.y = -2
 sideFinClose.rotation.y = Math.PI * 0.25
-const sideFinFar = new THREE.Mesh(sideFinPlane, makeSideFin(false))
+const sideFinFar = new THREE.Mesh(
+  sideFinPlane,
+  makeSideFin("glitter", orange, white)
+)
 sideFinFar.position.z = -1 + -Math.sqrt(1 / 2)
 sideFinFar.position.x = -Math.sqrt(1 / 2)
 sideFinFar.position.y = -2
@@ -466,7 +424,7 @@ sideFinFar.rotation.y = -Math.PI * 0.25
 
 const rearFinParent = new THREE.Group()
 const rearPlane = new THREE.PlaneGeometry(5, 6)
-const rearFin = new THREE.Mesh(rearPlane, makeRearFin())
+const rearFin = new THREE.Mesh(rearPlane, makeRearFin("glitter", orange, white))
 rearFin.position.x = -2.5
 rearFinParent.add(rearFin)
 rearFinParent.position.x = -3
