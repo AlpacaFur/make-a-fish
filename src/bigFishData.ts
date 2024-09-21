@@ -474,7 +474,97 @@ export const bigFishMap = {
         ]
       },
     },
-  }
+  },
+  clayfish: {
+    body: {
+      side: [
+        S, S, S, S, S, S, 
+        P, S, S, P, S, S, 
+        P, S, S, P, P, S, 
+        S, P, S, S, O, P, 
+        S, S, P, S, S, P, 
+        P, S, S, S, S, P, 
+      ],
+      top: [
+        S, S, S, S, S, P, 
+        S, S, S, S, S, P,
+      ],
+      right: [
+        P, P, 
+        P, P, 
+        S, S, 
+        P, P, 
+        S, S, 
+        S, S,
+      ],
+      bottom: [
+        P, P, S, S, S, S, 
+        P, P, S, S, S, S,
+      ],
+      left: [
+        S, S, 
+        S, S, 
+        S, S, 
+        S, S, 
+        P, P, 
+        P, P,
+      ]
+    },
+    fins: {
+      top: {
+        alpha: [
+          _, _, W, _, _, _,
+          W, W, _, W, _, _, 
+          _, W, W, W, W, _, 
+        ],
+        texture: [
+          _, _, P, _, _, _,
+          P, S, _, P, _, _, 
+          _, P, S, S, P, _, 
+        ]
+      },
+      side: {
+        alpha: [
+          W, W, 
+          _, W
+        ],
+        texture: [
+          S, S, 
+          _, S
+        ],
+      },
+      rear: {
+        alpha: [
+          _, W, W, _, _,
+          _, _, W, W, _,
+          _, _, _, W, W,
+          _, _, _, W, W,
+          _, _, W, W, _,
+          _, W, W, _, _,
+        ],
+        texture: [
+          _, P, P, _, _,
+          _, _, P, P, _,
+          _, _, _, S, S,
+          _, _, _, S, S,
+          _, _, P, P, _,
+          _, P, P, _, _,
+        ]
+      },
+      bottom: {
+        alpha: [
+          _, _, W, W, W, _, 
+          _, _, _, W, _, _, 
+          _, _, W, _, _, _, 
+        ],
+        texture: [
+          _, _, S, S, P, _, 
+          _, _, _, P, _, _, 
+          _, _, P, _, _, _, 
+        ]
+      },
+    },
+  },
 } as const satisfies BigFishMap
 
 export const bigFishTypes = Object.keys(bigFishMap) as BigFish[]

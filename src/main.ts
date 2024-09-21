@@ -2,7 +2,7 @@ import * as THREE from "three"
 import { OrbitControls } from "three/addons/controls/OrbitControls.js"
 import { _, FourPartColor } from "./symbols"
 import { makeBody, makeFins } from "./bigFishAssemble"
-import { BigFish } from "./bigFishData"
+import { BigFish, bigFishTypes } from "./bigFishData"
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color("dodgerblue")
@@ -62,7 +62,8 @@ const colors = [
 function buildFish() {
   const primary = colors[Math.floor(Math.random() * colors.length)]
   const secondary = colors[Math.floor(Math.random() * colors.length)]
-  const type: BigFish = "flopper"
+  const type: BigFish =
+    bigFishTypes[Math.floor(Math.random() * bigFishTypes.length)]
 
   const fishGroup = new THREE.Group()
   fishGroup.add(makeBody(type, primary, secondary))
