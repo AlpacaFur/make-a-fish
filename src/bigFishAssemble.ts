@@ -1,9 +1,11 @@
 import { BigFish } from "./bigFishData"
 import {
   makeBigFishSide,
+  makeBottomFace,
   makeBottomFin,
   makeLeftFace,
   makeRearFin,
+  makeRightFace,
   makeSideFin,
   makeTopFace,
   makeTopFin,
@@ -19,10 +21,10 @@ export function makeBody(
 ): THREE.Mesh {
   const geometry = new THREE.BoxGeometry(6, 6, 2)
   return new THREE.Mesh(geometry, [
-    makeLeftFace(fishType, primary, secondary),
+    makeRightFace(fishType, primary, secondary),
     makeLeftFace(fishType, primary, secondary),
     makeTopFace(fishType, primary, secondary),
-    makeTopFace(fishType, primary, secondary),
+    makeBottomFace(fishType, primary, secondary),
     makeBigFishSide(fishType, primary, secondary, true),
     makeBigFishSide(fishType, primary, secondary, false),
   ])

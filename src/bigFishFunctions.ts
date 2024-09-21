@@ -100,6 +100,19 @@ export function makeTopFace(
     true
   )
 }
+export function makeBottomFace(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  return dataToCanvasMaterial(
+    hydrateSymbols(bigFishMap[type].body.bottom, primary, secondary),
+    false,
+    6,
+    2,
+    true
+  )
+}
 export function makeLeftFace(
   type: BigFish,
   primary: FourPartColor,
@@ -107,6 +120,19 @@ export function makeLeftFace(
 ) {
   return dataToCanvasMaterial(
     hydrateSymbols(bigFishMap[type].body.left, primary, secondary),
+    false,
+    2,
+    6,
+    true
+  )
+}
+export function makeRightFace(
+  type: BigFish,
+  primary: FourPartColor,
+  secondary: FourPartColor
+) {
+  return dataToCanvasMaterial(
+    hydrateSymbols(bigFishMap[type].body.right, primary, secondary),
     false,
     2,
     6,
