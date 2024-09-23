@@ -18,7 +18,7 @@ renderer.setPixelRatio(window.devicePixelRatio * 1.5)
 const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
 controls.dampingFactor = 0.015
-controls.rotateSpeed = 3
+controls.rotateSpeed = 5
 controls.enablePan = false
 controls.enableZoom = false
 renderer.setSize(window.innerWidth, window.innerHeight)
