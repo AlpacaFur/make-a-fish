@@ -1,6 +1,7 @@
 body {
 	margin: 0;
   background: dodgerblue;
+  height: 100dvh;
 }
 
 h1 {

@@ -80,7 +80,7 @@ export const bigFishMap = {
         ],
         texture: [
           S, P, 
-          P, S
+          _, S
         ],
       },
       rear: {
