@@ -16,6 +16,9 @@ const camera = new THREE.PerspectiveCamera(
 const renderer = new THREE.WebGLRenderer({ antialias: true })
 renderer.setPixelRatio(window.devicePixelRatio * 1.5)
 const controls = new OrbitControls(camera, renderer.domElement)
+controls.enableDamping = true
+controls.dampingFactor = 0.03
+controls.rotateSpeed = 1.5
 controls.enablePan = false
 controls.enableZoom = false
 renderer.setSize(window.innerWidth, window.innerHeight)
@@ -86,9 +89,7 @@ function makeAFish() {
 
   function animate(time: number) {
     renderer.render(scene, camera)
-    // group.rotation.x += 0.001;
-    // group.rotation.z += 0.001;
-    // group.rotation.y += 0.001;
+    controls.update(time)
 
     const oscillatingValue = Math.sin((time * 4) / 1000)
 
